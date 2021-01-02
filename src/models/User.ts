@@ -1,47 +1,47 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+@Entity('users')
 class User {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   full_name: string;
 
+  @Column()
   cpf: string;
 
+  @Column('timestamp with time zone')
   date_of_birth: Date;
 
+  @Column()
   plan_type: string;
 
+  @Column()
   email: string;
 
+  @Column()
   phone: string;
 
+  @Column()
   password: string;
 
+  @Column()
   note: string;
 
+  @Column('timestamp with time zone')
   last_acess: Date;
 
-  constructor(
-    full_name: string,
-    cpf: string,
-    date_of_birth: Date,
-    plan_type: string,
-    email: string,
-    phone: string,
-    password: string,
-    note: string,
-    last_acess: Date,
-  ) {
-    this.id = uuid();
-    this.full_name = full_name;
-    this.cpf = cpf;
-    this.date_of_birth = date_of_birth;
-    this.plan_type = plan_type;
-    this.email = email;
-    this.phone = phone;
-    this.password = password;
-    this.note = note;
-    this.last_acess = last_acess;
-  }
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
 export default User;

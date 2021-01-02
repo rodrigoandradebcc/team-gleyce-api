@@ -1,7 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTrainings1606278347868 implements MigrationInterface {
+export default class CreateTrainings1606278347868
+  implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
     await queryRunner.createTable(
@@ -20,7 +20,11 @@ export class CreateTrainings1606278347868 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'notes',
+            name: 'observation',
+            type: 'varchar',
+          },
+          {
+            name: 'note',
             type: 'varchar',
           },
           {
