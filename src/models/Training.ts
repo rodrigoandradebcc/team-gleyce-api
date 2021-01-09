@@ -6,7 +6,9 @@ import {
   ManyToOne,
   JoinColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import Plan from './Plan';
 import User from './User';
 
 @Entity('trainings')
@@ -32,6 +34,13 @@ class Training {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(
+    () => Plan,
+    planExercisePrescription => planExercisePrescription.training,
+  )
+  @JoinColumn({ name: 'id' })
+  plan: Plan;
 
   @CreateDateColumn()
   created_at: Date;

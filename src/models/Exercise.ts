@@ -7,8 +7,10 @@ import {
   JoinColumn,
   UpdateDateColumn,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import Plan from './Plan';
+import PlanExercisePrescription from './PlanExercisePrescription';
 import Prescription from './Prescription';
 
 @Entity('exercises')
@@ -25,15 +27,18 @@ class Exercise {
   @Column()
   link: string;
 
-  @Column()
-  plan_id: string;
+  // @Column()
+  // plan_id: string;
 
-  @ManyToOne(() => Plan)
-  @JoinColumn({ name: 'plan_id' })
-  plan: Plan;
+  // @ManyToOne(() => Plan)
+  // @JoinColumn({ name: 'plan_id' })
+  // plan: Plan;
 
-  @OneToOne(type => Prescription, exercise => Exercise)
-  prescription: Prescription;
+  @OneToMany(
+    () => PlanExercisePrescription,
+    planExercisePrescription => planExercisePrescription.plan_id,
+  )
+  planExercisePrescription: PlanExercisePrescription[];
 
   @CreateDateColumn()
   created_at: Date;

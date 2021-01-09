@@ -3,15 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToOne,
   JoinColumn,
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
-import Exercise from './Exercise';
-import Training from './Training';
+import PlanExercisePrescription from './PlanExercisePrescription';
 
-@Entity('prescription')
+@Entity('prescriptions')
 class Prescription {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -23,7 +21,7 @@ class Prescription {
   serie: string;
 
   @Column()
-  wight: string;
+  weight: string;
 
   @Column()
   interval: string;
@@ -31,9 +29,11 @@ class Prescription {
   @Column()
   observation: string;
 
-  @OneToOne(type => Exercise, prescription => Prescription)
-  @JoinColumn()
-  exercise: Exercise;
+  // @Column()
+  // exercise_id: string;
+
+  @OneToOne(type => PlanExercisePrescription, prescription => Prescription)
+  planexerciseprescription: PlanExercisePrescription;
 
   @CreateDateColumn()
   created_at: Date;

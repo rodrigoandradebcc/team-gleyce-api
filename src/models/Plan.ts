@@ -6,11 +6,14 @@ import {
   ManyToOne,
   JoinColumn,
   UpdateDateColumn,
+  OneToMany,
+  ManyToMany,
 } from 'typeorm';
+import PlanExercisePrescription from './PlanExercisePrescription';
 import Training from './Training';
 
 @Entity('plans')
-class Appointment {
+class Plan {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,6 +27,14 @@ class Appointment {
   @JoinColumn({ name: 'training_id' })
   training: Training;
 
+  @OneToMany(
+    () => PlanExercisePrescription,
+    planExercisePrescription => planExercisePrescription.exercicios,
+    { eager: true },
+  )
+  @JoinColumn({ name: 'id' })
+  exercicios: PlanExercisePrescription;
+
   @CreateDateColumn()
   created_at: Date;
 
@@ -31,4 +42,4 @@ class Appointment {
   updated_at: Date;
 }
 
-export default Appointment;
+export default Plan;

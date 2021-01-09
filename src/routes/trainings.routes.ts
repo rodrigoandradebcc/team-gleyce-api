@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { getCustomRepository } from 'typeorm';
+import TrainingsRepository from '../repositories/TrainingsRepository';
 import CreateTrainingService from '../services/CreateTrainingService';
 
 const trainingsRouter = Router();
@@ -22,6 +24,16 @@ trainingsRouter.post('/', async (request, response) => {
     // console.log(err);
     return response.status(400).json({ error: err.message });
   }
+});
+
+trainingsRouter.get('/', async (request, response) => {
+  const trainingRepository = getCustomRepository(TrainingsRepository);
+  const plans = await trainingRepository.find({
+    where: { user_id: 'd7c63720-4dd5-4c87-ac07-f20d23eda913' },
+    relations: ['plan'],
+  });
+
+  return response.json(plans);
 });
 
 export default trainingsRouter;

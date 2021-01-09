@@ -14,7 +14,6 @@ class CreateExerciseService {
     name,
     exercise_group,
     link,
-    plan_id,
   }: Request): Promise<Exercise> {
     const exercisesRepository = getCustomRepository(ExercisesRepository);
 
@@ -22,7 +21,6 @@ class CreateExerciseService {
       name,
       exercise_group,
       link,
-      plan_id,
     });
 
     await exercisesRepository.save(exercise);
