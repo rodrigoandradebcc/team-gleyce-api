@@ -33,7 +33,7 @@ class User {
   password: string;
 
   @Column()
-  note: string;
+  observation: string;
 
   @Column('timestamp with time zone')
   last_acess: Date;
@@ -44,4 +44,5 @@ class User {
   @UpdateDateColumn()
   updated_at: Date;
 }
+
 export default User;

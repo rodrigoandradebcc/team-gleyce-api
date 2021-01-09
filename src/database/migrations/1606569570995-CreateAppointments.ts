@@ -27,6 +27,7 @@ export default class CreateAppointments1606569570995
           {
             name: 'updated_at',
             type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),

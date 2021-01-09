@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
+import CreateUserService from '../services/CreateUserService';
 
 const usersRouter = Router();
-const usersRepository = new UsersRepository();
 
-usersRouter.post('/', (request, response) => {
+usersRouter.post('/', async (request, response) => {
   try {
     const {
       full_name,
@@ -15,12 +13,27 @@ usersRouter.post('/', (request, response) => {
       email,
       phone,
       password,
-      note,
+      observation,
       last_acess,
     } = request.body;
 
-    return response.send();
+    const createUser = new CreateUserService();
+
+    const user = await createUser.execute({
+      full_name,
+      cpf,
+      date_of_birth,
+      plan_type,
+      email,
+      phone,
+      password,
+      observation,
+      last_acess,
+    });
+
+    return response.json(user);
   } catch (err) {
+    // console.log(err);
     return response.status(400).json({ error: err.message });
   }
 });

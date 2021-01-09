@@ -10,7 +10,7 @@ interface Request {
   email: string;
   phone: string;
   password: string;
-  note: string;
+  observation: string;
   last_acess: Date;
 }
 
@@ -23,10 +23,10 @@ class CreateUserService {
     email,
     phone,
     password,
-    note,
+    observation,
     last_acess,
   }: Request): Promise<User> {
-    const usersRepository = getCustomRepository(User);
+    const usersRepository = getCustomRepository(UsersRepository);
 
     const user = usersRepository.create({
       full_name,
@@ -36,7 +36,7 @@ class CreateUserService {
       email,
       phone,
       password,
-      note,
+      observation,
       last_acess,
     });
 

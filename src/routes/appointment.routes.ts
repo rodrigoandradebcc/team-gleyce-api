@@ -1,5 +1,3 @@
-import { startOfHour, parseISO } from 'date-fns';
-import { uuid } from 'uuidv4';
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
@@ -16,16 +14,18 @@ appointmentsRouter.get('/', async (request, response) => {
 
 appointmentsRouter.post('/', async (request, response) => {
   try {
-    const { date } = request.body;
+    const { date, user_id } = request.body;
 
     const createAppointment = new CreateAppointmentService();
 
     const appointment = await createAppointment.execute({
       date,
+      user_id,
     });
 
     return response.json(appointment);
   } catch (error) {
+    console.log(error);
     return response.status(400).json({ error: error.message });
   }
 });
