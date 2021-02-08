@@ -6,10 +6,18 @@ import ExercisesRepository from '../repositories/ExercisesRepository';
 
 interface Request {
   id: string;
+  name: string;
+  exercise_group: string;
+  link: string;
 }
 
 class UpdateExerciseService {
-  public async execute({ id }: Request): Promise<Exercise> {
+  public async execute({
+    id,
+    name,
+    exercise_group,
+    link,
+  }: Request): Promise<Exercise> {
     const exerciseRepository = getCustomRepository(ExercisesRepository);
 
     const exercise = await exerciseRepository.findOne(id);
@@ -18,10 +26,14 @@ class UpdateExerciseService {
       throw new Error('Exercise does not exist');
     }
 
-    await exerciseRepository.merge(exercise, request.body);
-    const result = await exerciseRepository.save(exercise);
+    const newExercise = await exerciseRepository.save({
+      id,
+      name,
+      exercise_group,
+      link,
+    });
 
-    return result;
+    return newExercise;
   }
 }
 

@@ -51,11 +51,17 @@ exercisesRouter.delete('/:id', async (request, response) => {
 exercisesRouter.put('/:id', async (request, response) => {
   try {
     const { id } = request.params;
+    const { name, exercise_group, link } = request.body;
 
     const updateExercise = new UpdateExerciseService();
 
-    await updateExercise.execute({ id });
-    return response.status(204).send();
+    const res = await updateExercise.execute({
+      id,
+      name,
+      exercise_group,
+      link,
+    });
+    return response.status(200).json(res);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
