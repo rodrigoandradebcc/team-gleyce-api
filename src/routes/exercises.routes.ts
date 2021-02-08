@@ -1,4 +1,4 @@
-import { request, response, Router } from 'express';
+import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import ExercisesRepository from '../repositories/ExercisesRepository';
 import CreateExerciseService from '../services/CreateExerciseService';
