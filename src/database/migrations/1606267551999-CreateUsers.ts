@@ -28,6 +28,10 @@ export default class CreateStudents1606265980630 implements MigrationInterface {
             type: 'timestamp with time zone',
           },
           {
+            name: 'active',
+            type: 'boolean',
+          },
+          {
             name: 'plan_type',
             type: 'varchar',
           },

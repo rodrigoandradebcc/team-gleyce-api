@@ -12,6 +12,7 @@ interface Request {
   password: string;
   observation: string;
   last_acess: Date;
+  active: boolean;
 }
 
 class CreateUserService {
@@ -25,6 +26,7 @@ class CreateUserService {
     password,
     observation,
     last_acess,
+    active,
   }: Request): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -38,6 +40,7 @@ class CreateUserService {
       password,
       observation,
       last_acess,
+      active,
     });
 
     await usersRepository.save(user);

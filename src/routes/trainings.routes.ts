@@ -1,7 +1,8 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import TrainingsRepository from '../repositories/TrainingsRepository';
 import CreateTrainingService from '../services/CreateTrainingService';
+import ListTrainingsToUserService from '../services/ListTrainingsToUserService';
 
 const trainingsRouter = Router();
 
@@ -21,7 +22,6 @@ trainingsRouter.post('/', async (request, response) => {
 
     return response.json(training);
   } catch (err) {
-    // console.log(err);
     return response.status(400).json({ error: err.message });
   }
 });
@@ -34,6 +34,20 @@ trainingsRouter.get('/', async (request, response) => {
   });
 
   return response.json(plans);
+});
+
+trainingsRouter.get('/:id', async (request: Request, response: Response) => {
+  try {
+    const { id } = request.params;
+
+    const trainingsToUser = new ListTrainingsToUserService();
+
+    const trainings = await trainingsToUser.execute({ id });
+
+    return response.json(trainings);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
 });
 
 export default trainingsRouter;

@@ -20,6 +20,9 @@ class User {
   @Column('timestamp with time zone')
   date_of_birth: Date;
 
+  @Column('boolean')
+  active: boolean;
+
   @Column()
   plan_type: string;
 
