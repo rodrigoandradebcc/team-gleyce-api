@@ -52,14 +52,16 @@ usersRouter.get('/', async (request: Request, response: Response) => {
 
 usersRouter.patch('/change-active/:id', async (request, response) => {
   try {
-    const { change_active } = request.body;
+    const { active } = request.body;
     const { id } = request.params;
 
     const changeActive = new ChangeActiveUserService();
 
-    const newUser = await changeActive.execute({ id, change_active });
+    const newStatus = await changeActive.execute({ id, active });
 
-    return response.json(newUser);
+    return response.status(201).json({
+      message: `O usuário está ${newStatus ? 'ativo' : 'desativo'}`,
+    });
   } catch (err) {
     return response.status(400).json({
       error: err.message,
