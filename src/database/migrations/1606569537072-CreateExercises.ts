@@ -25,6 +25,7 @@ export default class CreateExercises1606569537072
           {
             name: 'link',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
