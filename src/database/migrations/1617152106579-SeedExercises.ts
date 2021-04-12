@@ -26,6 +26,45 @@ export default class SeedExercises1617152106579 implements MigrationInterface {
     await queryRunner.query(
       `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO 45 MAQ PF', 'PEITORAL')`,
     );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO 45 MAQUINA', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO FECHADO INCLINADO', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO FECHADO RETO', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO INCLINADO ARTICULADO', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO INCLINADO BARRA', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO INCLINADO HALTER', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO INCLINADO MAQUINA', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO RETO ARTICULADO', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO RETO BARRA', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO RETO HALTER', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO RETO MAQ', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO RETO MAQ PF', 'PEITORAL')`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EXERCISES (id, name, exercise_group) VALUES (uuid_generate_v4(), 'SUPINO VERTICAL', 'PEITORAL')`,
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
