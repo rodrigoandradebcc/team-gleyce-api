@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+// import { Exclude } from 'class-transformer';
 
 @Entity('users')
 class User {
@@ -33,6 +35,7 @@ class User {
   phone: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()

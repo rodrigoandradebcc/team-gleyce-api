@@ -7,10 +7,13 @@ import plansRouter from './plans.routes';
 import exercisesRouter from './exercises.routes';
 import prescriptionRouter from './prescription.routes';
 import plansExercisePrescriptionRouter from './setplan.routes';
+import sessionsRouter from './sessions.routes';
 
 const routes = Router();
 
 routes.use('/users', usersRouter);
+routes.use('/sessions', sessionsRouter);
+
 routes.use('/appoinments', appoinmentsRouter);
 routes.use('/trainings', trainingsRouter);
 routes.use('/plans', plansRouter);
