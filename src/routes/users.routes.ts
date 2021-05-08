@@ -4,7 +4,11 @@ import UsersRepository from '../repositories/UsersRepository';
 import ChangeActiveUserService from '../services/ChangeActiveUserService';
 import CreateUserService from '../services/CreateUserService';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const usersRouter = Router();
+
+usersRouter.use(ensureAuthenticated);
 
 usersRouter.post('/', async (request: Request, response: Response) => {
   try {
