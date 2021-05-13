@@ -10,9 +10,12 @@ class ListPlansToUserService {
   public async execute({ id }: Request): Promise<Plan[]> {
     const plansRepository = getCustomRepository(PlansRepository);
 
-    const plans = await plansRepository.find({ training_id: id });
+    const plans = await plansRepository.find({
+      where: { training_id: id },
+      order: { created_at: 'ASC' },
+    });
 
-    if (!plans) throw new Error('Product not exists');
+    if (!plans) throw new Error('Plans not exists');
 
     return plans;
   }
