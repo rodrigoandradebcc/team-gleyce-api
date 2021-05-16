@@ -1,15 +1,15 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
-  UpdateDateColumn,
-  OneToMany,
+  JoinTable,
   ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import PlanExercisePrescription from './PlanExercisePrescription';
+import Exercise from './Exercise';
 import Training from './Training';
 
 @Entity('plans')
@@ -27,13 +27,17 @@ class Plan {
   @JoinColumn({ name: 'training_id' })
   training: Training;
 
-  @OneToMany(
-    () => PlanExercisePrescription,
-    planExercisePrescription => planExercisePrescription.exercicios,
-    { eager: true },
-  )
-  @JoinColumn({ name: 'id' })
-  exercicios: PlanExercisePrescription;
+  @ManyToMany(() => Exercise)
+  @JoinTable({
+    name: 'plans_exercises',
+    joinColumn: {
+      name: 'plan_id',
+    },
+    inverseJoinColumn: {
+      name: 'exercise_id',
+    },
+  })
+  exercises: Exercise[];
 
   @CreateDateColumn()
   created_at: Date;

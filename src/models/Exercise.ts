@@ -30,15 +30,9 @@ class Exercise {
   // @Column()
   // plan_id: string;
 
-  // @ManyToOne(() => Plan)
-  // @JoinColumn({ name: 'plan_id' })
-  // plan: Plan;
-
-  @OneToMany(
-    () => PlanExercisePrescription,
-    planExercisePrescription => planExercisePrescription.plan_id,
-  )
-  planExercisePrescription: PlanExercisePrescription[];
+  @OneToOne(() => Prescription)
+  @JoinColumn({ name: 'prescription_id' })
+  prescription: Prescription;
 
   @CreateDateColumn()
   created_at: Date;
