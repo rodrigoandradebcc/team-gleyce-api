@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
-import PlanExercisePrescription from './PlanExercisePrescription';
 
 @Entity('prescriptions')
 class Prescription {
@@ -31,6 +30,10 @@ class Prescription {
 
   @CreateDateColumn()
   created_at: Date;
+
+  // @OneToOne(() => Prescription)
+  // @JoinColumn({ name: 'prescription_id' })
+  // prescription: Prescription;
 
   @UpdateDateColumn()
   updated_at: Date;

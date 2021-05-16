@@ -2,7 +2,6 @@ import { Request, Response, Router } from 'express';
 import CreatePlanService from '../services/CreatePlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
 import ListTrainingCompletedService from '../services/ListTrainingCompletedService';
-import ListTrainingCompleted from '../services/ListTrainingCompletedService';
 
 const plansRouter = Router();
 

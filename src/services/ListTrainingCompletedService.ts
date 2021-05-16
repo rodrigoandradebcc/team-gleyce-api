@@ -3,7 +3,6 @@ import Plan from '../models/Plan';
 import Exercise from '../models/Exercise';
 import Prescription from '../models/Prescription';
 import PlansRepository from '../repositories/PlansRepository';
-import PlanExercisePrescriptionRepository from '../repositories/PlanExercisePrescriptionRepository';
 
 interface Request {
   id: string;
@@ -19,28 +18,16 @@ interface TrainingCompleted {
 }
 
 class ListTrainingCompletedService {
-  public async execute({ id }: Request): Promise<any> {
+  public async execute({ id }: Request): Promise<Plan[]> {
     const plansRepository = getCustomRepository(PlansRepository);
-    const plansExercisePrescriptionRepository = getCustomRepository(
-      PlanExercisePrescriptionRepository,
-    );
 
     const plans = await plansRepository.find({
-      where: { training_id: i },
+      where: { training_id: id },
       order: { created_at: 'ASC' },
+      relations: ['exercises'],
     });
 
     console.log('testea', plans);
-
-    const plansExercisePrescription = await plansExercisePrescriptionRepository.find(
-      {
-        where: { plan_id: id },
-      },
-    );
-
-    console.log('teste', plansExercisePrescription);
-
-    let newObject;
 
     return plans;
   }

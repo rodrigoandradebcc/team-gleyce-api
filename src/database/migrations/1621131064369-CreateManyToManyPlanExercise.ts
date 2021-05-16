@@ -22,6 +22,11 @@ export default class CreateManyToManyPlanExercise1621131064369
             type: 'uuid',
             isNullable: true,
           },
+          {
+            name: 'prescription_id',
+            type: 'uuid',
+            isNullable: true,
+          },
         ],
         foreignKeys: [
           new TableForeignKey({
@@ -37,6 +42,14 @@ export default class CreateManyToManyPlanExercise1621131064369
             columnNames: ['exercise_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'exercises',
+            onDelete: `SET NULL`,
+            onUpdate: 'CASCADE',
+          }),
+          new TableForeignKey({
+            name: 'PrescriptionIdKey',
+            columnNames: ['prescription_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'prescriptions',
             onDelete: `SET NULL`,
             onUpdate: 'CASCADE',
           }),
