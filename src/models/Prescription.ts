@@ -29,12 +29,6 @@ class Prescription {
   @Column()
   observation: string;
 
-  // @Column()
-  // exercise_id: string;
-
-  @OneToOne(type => PlanExercisePrescription, prescription => Prescription)
-  planexerciseprescription: PlanExercisePrescription;
-
   @CreateDateColumn()
   created_at: Date;
 
