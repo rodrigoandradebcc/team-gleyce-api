@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import CreatePlanService from '../services/CreatePlanService';
+import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
 import ListTrainingCompletedService from '../services/ListTrainingCompletedService';
 
@@ -17,6 +18,25 @@ plansRouter.post('/', async (request, response) => {
     });
 
     return response.json(plan);
+  } catch (err) {
+    console.log(err);
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+plansRouter.post('/insert-exercise', async (request, response) => {
+  try {
+    const { exercise_id, prescription_id, plan_id } = request.body;
+
+    const insertExercise = new InsertExerciseInPlanService();
+
+    const teste = await insertExercise.execute({
+      exercise_id,
+      prescription_id,
+      plan_id,
+    });
+
+    return response.json(teste);
   } catch (err) {
     console.log(err);
     return response.status(400).json({ error: err.message });
