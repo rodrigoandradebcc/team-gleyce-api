@@ -35,12 +35,12 @@ class Training {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(
-    () => Plan,
-    planExercisePrescription => planExercisePrescription.training,
-  )
-  @JoinColumn({ name: 'id' })
-  plan: Plan;
+  // @OneToMany(
+  //   () => Plan,
+  //   planExercisePrescription => planExercisePrescription.training,
+  // )
+  // @JoinColumn({ name: 'id' })
+  // plan: Plan;
 
   @CreateDateColumn()
   created_at: Date;

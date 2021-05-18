@@ -6,11 +6,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Exercise from './Exercise';
 import Training from './Training';
+import PlansExercises from './PlansExercises';
 
 @Entity('plans')
 class Plan {
@@ -23,21 +25,10 @@ class Plan {
   @Column()
   training_id: string;
 
-  @ManyToOne(() => Training)
-  @JoinColumn({ name: 'training_id' })
-  training: Training;
-
-  @ManyToMany(() => Exercise)
-  @JoinTable({
-    name: 'plans_exercises',
-    joinColumn: {
-      name: 'plan_id',
-    },
-    inverseJoinColumn: {
-      name: 'exercise_id',
-    },
+  @OneToMany(() => PlansExercises, plan_exercises => plan_exercises.plan, {
+    cascade: true,
   })
-  exercises: Exercise[];
+  plan_exercises: PlansExercises[];
 
   @CreateDateColumn()
   created_at: Date;

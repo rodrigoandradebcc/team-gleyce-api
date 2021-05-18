@@ -26,17 +26,23 @@ plansRouter.post('/', async (request, response) => {
 
 plansRouter.post('/insert-exercise', async (request, response) => {
   try {
-    const { exercise_id, prescription_id, plan_id } = request.body;
+    const {
+      exercisesSelected,
+      prescription_id,
+      plan_id,
+      training_id,
+    } = request.body;
 
     const insertExercise = new InsertExerciseInPlanService();
 
-    const teste = await insertExercise.execute({
-      exercise_id,
+    const result = await insertExercise.execute({
+      exercisesSelected,
       prescription_id,
       plan_id,
+      training_id,
     });
 
-    return response.json(teste);
+    return response.json(result);
   } catch (err) {
     console.log(err);
     return response.status(400).json({ error: err.message });
