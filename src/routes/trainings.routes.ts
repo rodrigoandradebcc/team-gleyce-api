@@ -4,8 +4,31 @@ import TrainingsRepository from '../repositories/TrainingsRepository';
 import CreateTrainingService from '../services/CreateTrainingService';
 import GetTrainingExpirationToday from '../services/GetTrainingExpirationToday';
 import ListTrainingsToUserService from '../services/ListTrainingsToUserService';
+import UpdateTrainingService from '../services/UpdateTrainingService';
 
 const trainingsRouter = Router();
+
+trainingsRouter.put('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { name, observation, note, expiration_date, user_id } = request.body;
+
+    const updateProduct = new UpdateTrainingService();
+
+    const newTraining = await updateProduct.execute({
+      id,
+      name,
+      observation,
+      note,
+      expiration_date,
+      user_id,
+    });
+
+    return response.json(newTraining);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
 
 trainingsRouter.post('/', async (request, response) => {
   try {
