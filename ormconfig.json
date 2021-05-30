@@ -11,6 +11,7 @@
   "migrations": [
     "./src/database/migrations/*.ts"
   ],
+  "logging": ["query","error"],
   "cli": {
     "migrationsDir": "./src/database/migrations/"
   }

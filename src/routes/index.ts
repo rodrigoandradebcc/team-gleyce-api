@@ -12,7 +12,6 @@ const routes = Router();
 
 routes.use('/users', usersRouter);
 routes.use('/sessions', sessionsRouter);
-
 routes.use('/appointments', appointmentsRouter);
 routes.use('/trainings', trainingsRouter);
 routes.use('/plans', plansRouter);

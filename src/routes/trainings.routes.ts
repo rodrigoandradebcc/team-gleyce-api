@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import TrainingsRepository from '../repositories/TrainingsRepository';
 import CreateTrainingService from '../services/CreateTrainingService';
+import GetTrainingExpirationToday from '../services/GetTrainingExpirationToday';
 import ListTrainingsToUserService from '../services/ListTrainingsToUserService';
 
 const trainingsRouter = Router();
@@ -36,13 +37,30 @@ trainingsRouter.get('/', async (request, response) => {
   return response.json(plans);
 });
 
+trainingsRouter.get(
+  '/total-trainings-expiration',
+  async (request: Request, response: Response) => {
+    try {
+      const trainingExpirationToday = new GetTrainingExpirationToday();
+
+      const totalTrainingsExpirationToday = await trainingExpirationToday.execute();
+
+      return response.json(totalTrainingsExpirationToday);
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+);
+
 trainingsRouter.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
+    const { tab } = request.query;
+
     const trainingsToUser = new ListTrainingsToUserService();
 
-    const trainings = await trainingsToUser.execute({ id });
+    const trainings = await trainingsToUser.execute({ id, tab: String(tab) });
 
     return response.json(trainings);
   } catch (err) {
