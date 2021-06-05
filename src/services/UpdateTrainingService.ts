@@ -37,22 +37,6 @@ class UpdateTrainingService {
       );
     }
 
-    const trainings = await trainingsRepository.find({ user_id });
-
-    const checkExistTraining = trainings.find(training =>
-      isEqual(
-        startOfDay(new Date(training.expiration_date)),
-        startOfDay(new Date(expiration_date)),
-      ),
-    );
-
-    if (checkExistTraining) {
-      throw new AppError(
-        'Não é possível cadastrar um treino com mesma data de expiração',
-        400,
-      );
-    }
-
     const training = await trainingsRepository.findOne(id);
 
     if (!training) {

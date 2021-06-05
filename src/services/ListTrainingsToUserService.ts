@@ -13,7 +13,10 @@ class ListTrainingsToUserService {
   public async execute({ id, tab }: Request): Promise<Training[]> {
     const trainingsRepository = getCustomRepository(TrainingsRepository);
 
-    const trainings = await trainingsRepository.find({ user_id: id });
+    const trainings = await trainingsRepository.find({
+      where: { user_id: id },
+      order: { created_at: 'DESC' },
+    });
     const currentDate = new Date(Date.now());
 
     if (tab === 'active') {

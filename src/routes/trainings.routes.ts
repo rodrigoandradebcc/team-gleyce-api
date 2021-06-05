@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import TrainingsRepository from '../repositories/TrainingsRepository';
 import CreateTrainingService from '../services/CreateTrainingService';
+import DeleteTrainingService from '../services/DeleteTrainingService';
 import GetTrainingExpirationToday from '../services/GetTrainingExpirationToday';
 import ListTrainingsToUserService from '../services/ListTrainingsToUserService';
 import UpdateTrainingService from '../services/UpdateTrainingService';
@@ -45,6 +46,20 @@ trainingsRouter.post('/', async (request, response) => {
     });
 
     return response.json(training);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+trainingsRouter.delete('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const deleteTraining = new DeleteTrainingService();
+
+    await deleteTraining.execute({ id });
+
+    return response.status(204).send();
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }
