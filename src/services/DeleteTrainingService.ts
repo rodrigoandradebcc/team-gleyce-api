@@ -13,7 +13,7 @@ class DeleteTrainingService {
     const training = await trainingsRepository.findOne(id);
 
     if (!training) {
-      throw new Error('Training does not exist');
+      throw new Error('Treino não existe!');
     }
 
     await trainingsRepository.delete(training.id);

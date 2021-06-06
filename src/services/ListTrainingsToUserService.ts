@@ -15,7 +15,7 @@ class ListTrainingsToUserService {
 
     const trainings = await trainingsRepository.find({
       where: { user_id: id },
-      order: { created_at: 'DESC' },
+      order: { created_at: 'ASC' },
     });
     const currentDate = new Date(Date.now());
 
