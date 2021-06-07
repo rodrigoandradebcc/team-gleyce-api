@@ -5,6 +5,7 @@ import ChangeActiveUserService from '../services/ChangeActiveUserService';
 import CreateUserService from '../services/CreateUserService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import DeleteStudentService from '../services/DeleteStudentService';
 
 const usersRouter = Router();
 
@@ -43,6 +44,20 @@ usersRouter.post('/', async (request: Request, response: Response) => {
     return response.status(201).json(user);
   } catch (err) {
     // console.log(err);
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+usersRouter.delete('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const deleteUser = new DeleteStudentService();
+
+    await deleteUser.execute({ id });
+
+    return response.status(204).send();
+  } catch (err) {
     return response.status(400).json({ error: err.message });
   }
 });
