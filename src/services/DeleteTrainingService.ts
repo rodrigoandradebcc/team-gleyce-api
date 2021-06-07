@@ -1,5 +1,4 @@
 import { getCustomRepository } from 'typeorm';
-import Training from '../models/Training';
 import TrainingsRepository from '../repositories/TrainingsRepository';
 
 interface Request {
