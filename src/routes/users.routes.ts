@@ -6,10 +6,51 @@ import CreateUserService from '../services/CreateUserService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import DeleteStudentService from '../services/DeleteStudentService';
+import UpdateUserService from '../services/UpdateUserService';
+import FilterUsersByName from '../services/FilterUsersByName';
+import AppError from '../shared/AppError';
 
 const usersRouter = Router();
 
 usersRouter.use(ensureAuthenticated);
+
+usersRouter.put('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+    const {
+      full_name,
+      cpf,
+      date_of_birth,
+      plan_type,
+      active,
+      email,
+      phone,
+      password,
+      observation,
+      last_acess,
+    } = request.body;
+
+    const updateUser = new UpdateUserService();
+
+    const newUser = await updateUser.execute({
+      id,
+      full_name,
+      cpf,
+      date_of_birth,
+      plan_type,
+      active,
+      email,
+      phone,
+      password,
+      observation,
+      last_acess,
+    });
+
+    return response.json(newUser);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
 
 usersRouter.post('/', async (request: Request, response: Response) => {
   try {
@@ -68,6 +109,25 @@ usersRouter.get('/', async (request: Request, response: Response) => {
 
   return response.json(users);
 });
+
+usersRouter.get(
+  '/filter-users',
+  async (request: Request, response: Response) => {
+    const { like } = request.query;
+
+    const filterUsersByName = new FilterUsersByName();
+
+    if (!like) {
+      throw new AppError('fudeu');
+    }
+
+    const usersFiltered = await filterUsersByName.execute({
+      like: String(like),
+    });
+
+    return response.json(usersFiltered);
+  },
+);
 
 usersRouter.patch('/change-active/:id', async (request, response) => {
   try {
