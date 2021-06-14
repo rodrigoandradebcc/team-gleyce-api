@@ -81,7 +81,8 @@ trainingsRouter.get(
     try {
       const trainingExpirationToday = new GetTrainingExpirationToday();
 
-      const totalTrainingsExpirationToday = await trainingExpirationToday.execute();
+      const totalTrainingsExpirationToday =
+        await trainingExpirationToday.execute();
 
       return response.json(totalTrainingsExpirationToday);
     } catch (err) {
