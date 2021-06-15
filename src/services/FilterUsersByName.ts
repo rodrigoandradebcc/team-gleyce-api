@@ -8,7 +8,6 @@ interface Request {
 
 class FilterUsersByName {
   public async execute({ like }: Request): Promise<User[]> {
-    console.log('ta chegando', like);
     const usersRepository = getCustomRepository(UsersRepository);
     const users = await usersRepository.find({
       full_name: ILike(`%${like}%`),
