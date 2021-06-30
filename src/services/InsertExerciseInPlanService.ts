@@ -1,28 +1,37 @@
-import { getCustomRepository, QueryBuilder } from 'typeorm';
-import Plan from '../models/Plan';
-import Exercise from '../models/Exercise';
-import PlansRepository from '../repositories/PlansRepository';
+import { getCustomRepository } from 'typeorm';
 import PlansExercisesRepository from '../repositories/PlansExercisesRepository';
+import PlansRepository from '../repositories/PlansRepository';
+import CreatePrescriptionService from './CreatePrescriptionService';
+import UpdatePrescriptionService from './UpdatePrescriptionService';
 
 interface ExerciseProps {
   id: string;
 }
 
+interface PrescriptionProps {
+  repetition: string;
+  serie: string;
+  weight: string;
+  interval: string;
+  observation: string;
+}
+
 interface Request {
   plan_id: string;
-  exercisesSelected: ExerciseProps[];
-  prescription_id: string;
-  training_id: string;
+  exercise_id: string;
+  prescription: PrescriptionProps;
+  // training_id: string;
 }
 
 class InsertExerciseInPlanService {
   public async execute({
-    exercisesSelected,
-    prescription_id,
+    exercise_id,
+    prescription,
     plan_id,
-    training_id,
   }: Request): Promise<any> {
     const plansRepository = getCustomRepository(PlansRepository);
+    const prescriptionService = new CreatePrescriptionService();
+    const updatePrescriptionService = new UpdatePrescriptionService();
 
     const plansExercisesRepository = getCustomRepository(
       PlansExercisesRepository,
@@ -34,31 +43,33 @@ class InsertExerciseInPlanService {
       throw new Error('Could not find any plan with the giver id');
     }
 
+    const prescriptionExist = await plansExercisesRepository.findOne({
+      plan_id,
+      exercise_id,
+    });
+
+    if (prescriptionExist) {
+      const { prescription_id } = prescriptionExist;
+
+      const updatedPrescription = await updatePrescriptionService.execute({
+        id: prescription_id,
+        prescription,
+      });
+
+      return updatedPrescription;
+    }
+
+    const newPrescription = await prescriptionService.execute({
+      ...prescription,
+    });
+
     const res = plansExercisesRepository.create({
       plan_id,
-      exercise_id: exercisesSelected[0].id,
-      prescription_id: '89b7d462-a0bd-4f76-9b5e-7e3ea883c911',
+      exercise_id,
+      prescription_id: newPrescription.id,
     });
 
     await plansExercisesRepository.save(res);
-
-    // const plan = plansRepository.create({
-    //   description: 'B',
-    //   training_id,plan_exercises: [exercises: exercisesSelected]
-    // });
-
-    // const plans = await plansRepository
-    //   .createQueryBuilder()
-    //   .insert()
-    //   .into('plans_exercises')
-    //   .values([
-    //     {
-    //       plan_id,
-    //       prescription_id,
-    //       exercise_id,
-    //     },
-    //   ])
-    //   .execute();
 
     return res;
   }

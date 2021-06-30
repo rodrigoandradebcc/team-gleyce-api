@@ -20,7 +20,7 @@ class CreatePrescriptionService {
   }: Request): Promise<Prescription> {
     const prescriptionRepository = getCustomRepository(PrescriptionsRepository);
 
-    const prescription = prescriptionRepository.create({
+    const newPrescription = prescriptionRepository.create({
       repetition,
       serie,
       weight,
@@ -28,8 +28,10 @@ class CreatePrescriptionService {
       observation,
     });
 
-    await prescriptionRepository.save(prescription);
-    return prescription;
+    const savedPrescription = await prescriptionRepository.save(
+      newPrescription,
+    );
+    return savedPrescription;
   }
 }
 

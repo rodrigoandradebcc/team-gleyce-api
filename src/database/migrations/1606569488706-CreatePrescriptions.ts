@@ -17,22 +17,27 @@ export default class CreatePrescriptions1606569488706
           {
             name: 'repetition',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'serie',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'weight',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'interval',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'observation',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',

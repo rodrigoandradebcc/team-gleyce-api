@@ -1,11 +1,10 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
-  JoinColumn,
-  UpdateDateColumn,
+  Entity,
   OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import PlansExercises from './PlansExercises';
 

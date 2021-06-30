@@ -26,20 +26,14 @@ plansRouter.post('/', async (request, response) => {
 
 plansRouter.post('/insert-exercise', async (request, response) => {
   try {
-    const {
-      exercisesSelected,
-      prescription_id,
-      plan_id,
-      training_id,
-    } = request.body;
+    const { plan_id, exercise_id, prescription } = request.body;
 
     const insertExercise = new InsertExerciseInPlanService();
 
     const result = await insertExercise.execute({
-      exercisesSelected,
-      prescription_id,
       plan_id,
-      training_id,
+      exercise_id,
+      prescription,
     });
 
     return response.json(result);
