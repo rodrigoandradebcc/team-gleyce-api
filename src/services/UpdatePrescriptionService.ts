@@ -1,5 +1,4 @@
 import { getCustomRepository } from 'typeorm';
-import Prescription from '../models/Prescription';
 
 import PrescriptionsRepository from '../repositories/PrescriptionsRepository';
 

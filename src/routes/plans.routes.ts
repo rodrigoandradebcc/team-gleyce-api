@@ -1,8 +1,9 @@
 import { Request, Response, Router } from 'express';
 import CreatePlanService from '../services/CreatePlanService';
+import GetExercisesAndPrescriptionCompletedToPlanService from '../services/GetExercisesAndPrescriptionCompletedToPlanService';
+import GetTrainingCompletedToUserService from '../services/GetTrainingCompletedToUserService';
 import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
-import ListTrainingCompletedService from '../services/ListTrainingCompletedService';
 
 const plansRouter = Router();
 
@@ -43,6 +44,46 @@ plansRouter.post('/insert-exercise', async (request, response) => {
   }
 });
 
+plansRouter.get(
+  '/plan-completed/:id',
+  async (request: Request, response: Response) => {
+    try {
+      const { id } = request.params;
+      const getExercisesAndPrescriptionCompletedToPlanService = new GetExercisesAndPrescriptionCompletedToPlanService();
+
+      const planCompleted = await getExercisesAndPrescriptionCompletedToPlanService.execute(
+        {
+          plan_id: id,
+        },
+      );
+
+      return response.json(planCompleted);
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+);
+
+plansRouter.get(
+  '/training-completed/:id',
+  async (request: Request, response: Response) => {
+    try {
+      const { id } = request.params;
+      const getTrainingCompletedToUserService = new GetTrainingCompletedToUserService();
+
+      const trainingCompleted = await getTrainingCompletedToUserService.execute(
+        {
+          id,
+        },
+      );
+
+      return response.json(trainingCompleted);
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+);
+
 plansRouter.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
@@ -56,20 +97,17 @@ plansRouter.get('/:id', async (request: Request, response: Response) => {
   }
 });
 
-plansRouter.get(
-  '/training-completed/:id',
-  async (request: Request, response: Response) => {
-    try {
-      const { id } = request.params;
-      const trainingCompleted = new ListTrainingCompletedService();
+// plansRouter.get('/:id', async (request: Request, response: Response) => {
+//   try {
+//     const { id } = request.params;
+//     const plansToUser = new ListPlansToUserService();
 
-      const plans = await trainingCompleted.execute({ id });
+//     const plans = await plansToUser.execute({ id });
 
-      return response.json(plans);
-    } catch (err) {
-      return response.status(400).json({ error: err.message });
-    }
-  },
-);
+//     return response.json(plans);
+//   } catch (err) {
+//     return response.status(400).json({ error: err.message });
+//   }
+// });
 
 export default plansRouter;

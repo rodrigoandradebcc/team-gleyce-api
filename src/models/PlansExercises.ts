@@ -19,7 +19,9 @@ class PlansExercises {
   @JoinColumn({ name: 'plan_id' })
   plan: Plan;
 
-  @ManyToOne(() => Exercise, exercise => exercise.plan_exercises)
+  @ManyToOne(() => Exercise, exercise => exercise.plan_exercises, {
+    eager: true,
+  })
   @JoinColumn({ name: 'exercise_id' })
   exercise: Exercise;
 

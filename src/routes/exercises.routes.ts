@@ -27,6 +27,14 @@ exercisesRouter.post('/', async (request, response) => {
   }
 });
 
+exercisesRouter.get('/:id', async (request, response) => {
+  const { id } = request.params;
+  const exercisesRepository = getCustomRepository(ExercisesRepository);
+  const exercises = await exercisesRepository.findOne({ id });
+
+  return response.json(exercises);
+});
+
 exercisesRouter.get('/', async (request, response) => {
   const exercisesRepository = getCustomRepository(ExercisesRepository);
   const exercises = await exercisesRepository.find();
