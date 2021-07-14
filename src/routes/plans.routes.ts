@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import CreatePlanService from '../services/CreatePlanService';
+import DeletePlanService from '../services/DeletePlanService';
 import GetExercisesAndPrescriptionCompletedToPlanService from '../services/GetExercisesAndPrescriptionCompletedToPlanService';
 import GetTrainingCompletedToUserService from '../services/GetTrainingCompletedToUserService';
 import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
@@ -83,6 +84,20 @@ plansRouter.get(
     }
   },
 );
+
+plansRouter.delete('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const deletePlan = new DeletePlanService();
+
+    await deletePlan.execute({ id });
+
+    return response.status(204).send();
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
 
 plansRouter.get('/:id', async (request: Request, response: Response) => {
   try {
