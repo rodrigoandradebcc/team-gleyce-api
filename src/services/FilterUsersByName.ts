@@ -27,7 +27,7 @@ class FilterUsersByName {
       where,
     });
 
-    if (!users) throw new Error('Users not exists');
+    if (!users) throw new Error('Users not existsa');
 
     return users;
   }
