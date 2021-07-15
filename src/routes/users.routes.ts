@@ -114,13 +114,14 @@ usersRouter.get(
   async (request: Request, response: Response) => {
     const { name, active } = request.query;
     const filterUsersByName = new FilterUsersByName();
-    console.log(active)
+
     if (!name) {
       throw new AppError('fudeu');
     }
+
     const usersFiltered = await filterUsersByName.execute({
       name: String(name),
-      active: String(active)
+      active: active !== undefined ? String(active) : '',
     });
 
     return response.json(usersFiltered);
