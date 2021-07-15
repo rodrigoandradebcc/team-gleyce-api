@@ -1,16 +1,22 @@
-import { getCustomRepository, Raw, ILike } from 'typeorm';
+import { getCustomRepository, Raw, ILike, Equal, FindOperator } from 'typeorm';
 import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
 
 interface Request {
-  like: string;
+  name: string;
+  active?: boolean;
 }
 
 class FilterUsersByName {
-  public async execute({ like }: Request): Promise<User[]> {
+  public async execute({ name, active }: Request): Promise<User[]> {
     const usersRepository = getCustomRepository(UsersRepository);
     const users = await usersRepository.find({
-      full_name: ILike(`%${like}%`),
+      where: [
+        {
+          full_name: ILike(`%${name}%`),
+          active
+        }
+      ]
     });
 
     if (!users) throw new Error('Users not exists');

@@ -3,7 +3,6 @@ import { getCustomRepository } from 'typeorm';
 import UsersRepository from '../repositories/UsersRepository';
 import ChangeActiveUserService from '../services/ChangeActiveUserService';
 import CreateUserService from '../services/CreateUserService';
-
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import DeleteStudentService from '../services/DeleteStudentService';
 import UpdateUserService from '../services/UpdateUserService';
@@ -113,16 +112,16 @@ usersRouter.get('/', async (request: Request, response: Response) => {
 usersRouter.get(
   '/filter-users',
   async (request: Request, response: Response) => {
-    const { like } = request.query;
-
+    const { name, active } = request.query;
     const filterUsersByName = new FilterUsersByName();
-
-    if (!like) {
+    console.log(active)
+    if (!name) {
       throw new AppError('fudeu');
     }
 
     const usersFiltered = await filterUsersByName.execute({
-      like: String(like),
+      name: String(name),
+      active: "true"===active
     });
 
     return response.json(usersFiltered);
