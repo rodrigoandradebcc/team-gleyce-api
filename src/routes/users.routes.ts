@@ -118,10 +118,9 @@ usersRouter.get(
     if (!name) {
       throw new AppError('fudeu');
     }
-
     const usersFiltered = await filterUsersByName.execute({
       name: String(name),
-      active: "true"===active
+      active: String(active)
     });
 
     return response.json(usersFiltered);
