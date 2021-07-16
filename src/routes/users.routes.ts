@@ -104,7 +104,7 @@ usersRouter.delete('/:id', async (request, response) => {
 
 usersRouter.get('/', async (request: Request, response: Response) => {
   const userRepository = getCustomRepository(UsersRepository);
-  const users = await userRepository.find();
+  const users = await userRepository.find({ order: { created_at: 'ASC' } });
 
   return response.json(users);
 });
