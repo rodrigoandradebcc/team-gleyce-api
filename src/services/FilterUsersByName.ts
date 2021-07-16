@@ -3,15 +3,18 @@ import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
 
 interface Request {
-  name: string;
+  name?: string;
   active?: string;
 }
 
 class FilterUsersByName {
   public async execute({ name, active }: Request): Promise<User[]> {
     let where;
-
-    if (active) {
+    if (name === 'undefined' && active) {
+      where = {
+        active: JSON.parse(active),
+      };
+    } else if (active && name !== 'undefined') {
       where = {
         full_name: ILike(`%${name}%`),
         active: JSON.parse(active),

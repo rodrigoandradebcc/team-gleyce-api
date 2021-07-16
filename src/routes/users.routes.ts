@@ -115,10 +115,6 @@ usersRouter.get(
     const { name, active } = request.query;
     const filterUsersByName = new FilterUsersByName();
 
-    if (!name) {
-      throw new AppError('fudeu');
-    }
-
     const usersFiltered = await filterUsersByName.execute({
       name: String(name),
       active: active !== undefined ? String(active) : '',
