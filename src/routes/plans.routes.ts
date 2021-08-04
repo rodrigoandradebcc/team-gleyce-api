@@ -5,6 +5,7 @@ import GetExercisesAndPrescriptionCompletedToPlanService from '../services/GetEx
 import GetTrainingCompletedToUserService from '../services/GetTrainingCompletedToUserService';
 import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
+import UpdatePlanService from '../services/UpdatePlanService';
 
 const plansRouter = Router();
 
@@ -21,7 +22,22 @@ plansRouter.post('/', async (request, response) => {
 
     return response.json(plan);
   } catch (err) {
-    console.log(err);
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+plansRouter.put('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const { description } = request.body;
+
+    const updatePlan = new UpdatePlanService();
+
+    const newPlan = await updatePlan.execute({ id, description });
+
+    return response.json(newPlan);
+  } catch (err) {
     return response.status(400).json({ error: err.message });
   }
 });
@@ -50,13 +66,13 @@ plansRouter.get(
   async (request: Request, response: Response) => {
     try {
       const { id } = request.params;
-      const getExercisesAndPrescriptionCompletedToPlanService = new GetExercisesAndPrescriptionCompletedToPlanService();
+      const getExercisesAndPrescriptionCompletedToPlanService =
+        new GetExercisesAndPrescriptionCompletedToPlanService();
 
-      const planCompleted = await getExercisesAndPrescriptionCompletedToPlanService.execute(
-        {
+      const planCompleted =
+        await getExercisesAndPrescriptionCompletedToPlanService.execute({
           plan_id: id,
-        },
-      );
+        });
 
       return response.json(planCompleted);
     } catch (err) {
@@ -70,7 +86,8 @@ plansRouter.get(
   async (request: Request, response: Response) => {
     try {
       const { id } = request.params;
-      const getTrainingCompletedToUserService = new GetTrainingCompletedToUserService();
+      const getTrainingCompletedToUserService =
+        new GetTrainingCompletedToUserService();
 
       const trainingCompleted = await getTrainingCompletedToUserService.execute(
         {
