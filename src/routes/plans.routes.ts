@@ -3,11 +3,17 @@ import CreatePlanService from '../services/CreatePlanService';
 import DeletePlanService from '../services/DeletePlanService';
 import GetExercisesAndPrescriptionCompletedToPlanService from '../services/GetExercisesAndPrescriptionCompletedToPlanService';
 import GetTrainingCompletedToUserService from '../services/GetTrainingCompletedToUserService';
+import GetTrainingService from '../services/GetTrainingService';
 import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
 import UpdatePlanService from '../services/UpdatePlanService';
 
 const plansRouter = Router();
+
+const ejs = require('ejs');
+const path = require('path');
+const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 
 plansRouter.post('/', async (request, response) => {
   try {
@@ -82,12 +88,16 @@ plansRouter.get(
 );
 
 plansRouter.get(
-  '/training-completed/:id',
+  '/generate-pdf/:id',
   async (request: Request, response: Response) => {
     try {
       const { id } = request.params;
+      const filePath = path.join(__dirname, '..', 'print.ejs');
+
       const getTrainingCompletedToUserService =
         new GetTrainingCompletedToUserService();
+
+      const getTrainingService = new GetTrainingService();
 
       const trainingCompleted = await getTrainingCompletedToUserService.execute(
         {
@@ -95,7 +105,53 @@ plansRouter.get(
         },
       );
 
-      return response.json(trainingCompleted);
+      const training = await getTrainingService.execute({
+        id: trainingCompleted[0].training_id,
+      });
+
+      // console.log('BBBBBBB', { training, trainingCompleted });
+
+      ejs.renderFile(
+        filePath,
+        { training, trainingCompleted },
+        function (err: Error, str: HTMLDocument) {
+          console.log(str);
+          if (err) {
+            console.log(err);
+            return response.send('Erro ao gerar o PDF A');
+          }
+          return response.send(str);
+        },
+      );
+
+      return response.json('');
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+);
+
+plansRouter.get(
+  '/training-completed/:id',
+  async (request: Request, response: Response) => {
+    try {
+      const { id } = request.params;
+      const getTrainingCompletedToUserService =
+        new GetTrainingCompletedToUserService();
+
+      const getTrainingService = new GetTrainingService();
+
+      const trainingCompleted = await getTrainingCompletedToUserService.execute(
+        {
+          id,
+        },
+      );
+
+      const training = await getTrainingService.execute({
+        id: trainingCompleted[0].training_id,
+      });
+
+      return response.json({ training, trainingCompleted });
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }

@@ -31,7 +31,9 @@ class Training {
   @Column()
   user_id: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, {
+    eager: true,
+  })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
