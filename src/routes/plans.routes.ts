@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import CreatePlanService from '../services/CreatePlanService';
+import DeleteExerciseAndPrescriptionService from '../services/DeleteExerciseAndPrescriptionService';
 import DeletePlanService from '../services/DeletePlanService';
 import GetExercisesAndPrescriptionCompletedToPlanService from '../services/GetExercisesAndPrescriptionCompletedToPlanService';
 import GetTrainingCompletedToUserService from '../services/GetTrainingCompletedToUserService';
@@ -12,8 +13,8 @@ const plansRouter = Router();
 
 const ejs = require('ejs');
 const path = require('path');
-const pdf = require('html-pdf');
-const puppeteer = require('puppeteer');
+// const pdf = require('html-pdf');
+// const puppeteer = require('puppeteer');
 
 plansRouter.post('/', async (request, response) => {
   try {
@@ -109,22 +110,17 @@ plansRouter.get(
         id: trainingCompleted[0].training_id,
       });
 
-      // console.log('BBBBBBB', { training, trainingCompleted });
-
       ejs.renderFile(
         filePath,
         { training, trainingCompleted },
         function (err: Error, str: HTMLDocument) {
-          console.log(str);
           if (err) {
-            console.log(err);
-            return response.send('Erro ao gerar o PDF A');
+            // return response.send('Erro ao gerar o PDF');
+            return response.json({ message: err });
           }
           return response.send(str);
         },
       );
-
-      return response.json('');
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
@@ -169,6 +165,20 @@ plansRouter.delete('/:id', async (request, response) => {
     return response.status(204).send();
   } catch (err) {
     return response.status(400).json({ error: err.message });
+  }
+});
+
+plansRouter.delete('/delete-exercise/:id', async (request, response) => {
+  try {
+    const { plan_id } = request.body;
+    const { id } = request.params;
+
+    const deleteExercise = new DeleteExerciseAndPrescriptionService();
+    await deleteExercise.execute({plan_id, exercise_id: id});
+
+    return response.status(204).send();
+  } catch (error) {
+    return response.status(400).json({ error: error.message });
   }
 });
 

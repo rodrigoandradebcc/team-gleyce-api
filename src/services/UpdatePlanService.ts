@@ -11,9 +11,6 @@ interface Request {
 class UpdatePlanService {
   public async execute({ id, description }: Request): Promise<Plan> {
     const plansRepository = getCustomRepository(PlansRepository);
-
-    console.log('aaaaaaaaaaaaaaaa');
-
     const plan = await plansRepository.findOne(id);
 
     if (!plan) {
