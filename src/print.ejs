@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório</title>
+
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    
+    <style>
+        table {
+            width: 100%;
+        }
+        th {
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="bg-white p-8">
+    <div class="flex items-center flex-col">
+        <div class="flex">
+            <img src="/logoblack.png" class="rounded object-contain h-32 w-1/3" />           
+            <div class="text-lg w-full">
+                <p><em class="font-bold not-italic">Aluno:</em> <%= training.user.full_name %> </p>
+                <p<em class="font-bold not-italic">Professor(a):</em><em class="font-normal not-italic"> Gleyce Cristina Ferreira Andrade</em></p>
+                <p><em class="font-bold not-italic">Nome do treino:</em> <em class="not-italic font-normal"><%= training.name %></em> <em class="font-bold not-italic">Início: </em><em class="not-italic font-normal"> 09/08/21</em></p>
+                <p><em class="font-bold not-italic">Frequência Semanal:</em><em class="font-normal not-italic"> 6 vezes </em><em class="font-bold not-italic">Vencimento:</em><em class="font-normal not-italic"> <%= training.expiration_date %></em></p>
+            </div>
+        </div>
+        <div class="flex w-full flex-col p-8">
+            <% if (trainingCompleted.length > 0) { %>
+                <% trainingCompleted.forEach(trainingCompleted => { %>
+                <p class="mt-8 text-white px-8 py-3 bg-gray-900">Nome do Plano: <%= trainingCompleted.description %></p>
+
+                                                
+                <table class="table-auto">
+                    <thead>
+                        <tr class="border">
+                            <th class="px-8 py-2">Exercício</th>
+                            <th>Método</th>
+                            <th>Carga</th>
+                            <th>Intervalo</th>
+                            <th>Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (trainingCompleted.plan_exercises.length > 0) { %>
+                            <% trainingCompleted.plan_exercises.forEach(item => { %>
+                                <tr class="border">
+                                    <td class="px-8 py-4"><%= item.exercise.name %></td>
+                                    <td class="py-4"><%= item.prescription.repetition %></td>
+                                    <td class="py-4"><%= item.prescription.weight %></td>
+                                    <td class="py-4"><%= item.prescription.interval %></td>
+                                    <td class="py-4"><%= item.prescription.observation %></td>
+                                </tr>
+                            <%  }); %>
+                        <% } %>
+        
+                    </tbody>
+                </table>
+            </br>
+                <%  }); %>
+            <% } %>
+        </div>
+    </div>
+    
+</body>
+</html>
