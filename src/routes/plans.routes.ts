@@ -13,8 +13,8 @@ const plansRouter = Router();
 
 const ejs = require('ejs');
 const path = require('path');
-// const pdf = require('html-pdf');
-// const puppeteer = require('puppeteer');
+const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 
 plansRouter.post('/', async (request, response) => {
   try {
@@ -127,6 +127,34 @@ plansRouter.get(
   },
 );
 
+plansRouter.get('/pdf', async (request, response) => {
+
+  try {
+    const { id } = request.params;
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    await page.goto(`http://localhost:3333/plans/generate-pdf/${id}`, {
+      waitUntil: 'networkidle0',
+    });
+
+    // eslint-disable-next-line no-shadow
+    const pdf = await page.pdf({
+      printBackground: true,
+      format: 'Letter',
+    });
+
+    await browser.close();
+
+    response.contentType('application/pdf');
+
+    return response.send(pdf);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 plansRouter.get(
   '/training-completed/:id',
   async (request: Request, response: Response) => {
@@ -168,13 +196,13 @@ plansRouter.delete('/:id', async (request, response) => {
   }
 });
 
-plansRouter.delete('/delete-exercise/:id', async (request, response) => {
+plansRouter.delete('/delete-exercise/:id/:plan', async (request, response) => {
   try {
-    const { plan_id } = request.body;
-    const { id } = request.params;
+    // const { plan_id } = request.body;
+    const { id, plan } = request.params;
 
     const deleteExercise = new DeleteExerciseAndPrescriptionService();
-    await deleteExercise.execute({plan_id, exercise_id: id});
+    await deleteExercise.execute({plan_id: plan, exercise_id: id});
 
     return response.status(204).send();
   } catch (error) {
