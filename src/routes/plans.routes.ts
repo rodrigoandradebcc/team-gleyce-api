@@ -89,7 +89,7 @@ plansRouter.get(
 );
 
 plansRouter.get(
-  '/generate-pdf/:id',
+  '/view-pdf/:id',
   async (request: Request, response: Response) => {
     try {
       const { id } = request.params;
@@ -127,7 +127,7 @@ plansRouter.get(
   },
 );
 
-plansRouter.get('/pdf', async (request, response) => {
+plansRouter.get('/generate-pdf/:id', async (request, response) => {
 
   try {
     const { id } = request.params;
@@ -135,7 +135,7 @@ plansRouter.get('/pdf', async (request, response) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto(`http://localhost:3333/plans/generate-pdf/${id}`, {
+    await page.goto(`http://192.168.0.11:3333/plans/view-pdf/${id}`, {
       waitUntil: 'networkidle0',
     });
 
