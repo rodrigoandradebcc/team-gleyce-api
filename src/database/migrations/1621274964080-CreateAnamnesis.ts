@@ -5,7 +5,7 @@ export default class CreateAnamnesis1621274964080
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'Anamnesis',
+        name: 'anamnesis',
         columns: [
           {
             name: 'id',
