@@ -25,6 +25,9 @@ class Training {
   @Column()
   observation: string;
 
+  @Column()
+  training_frequency: string;
+
   @Column('timestamp with time zone')
   expiration_date: Date;
 

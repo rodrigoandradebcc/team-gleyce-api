@@ -12,7 +12,7 @@ const trainingsRouter = Router();
 trainingsRouter.put('/:id', async (request, response) => {
   try {
     const { id } = request.params;
-    const { name, observation, note, expiration_date, user_id } = request.body;
+    const { name, observation, note, expiration_date, user_id, training_frequency } = request.body;
 
     const updateProduct = new UpdateTrainingService();
 
@@ -23,6 +23,7 @@ trainingsRouter.put('/:id', async (request, response) => {
       note,
       expiration_date,
       user_id,
+      training_frequency,
     });
 
     return response.json(newTraining);
@@ -33,7 +34,7 @@ trainingsRouter.put('/:id', async (request, response) => {
 
 trainingsRouter.post('/', async (request, response) => {
   try {
-    const { name, observation, note, expiration_date, user_id } = request.body;
+  const { name, observation, note, expiration_date, user_id, training_frequency } = request.body;
 
     const createTraining = new CreateTrainingService();
 
@@ -43,6 +44,7 @@ trainingsRouter.post('/', async (request, response) => {
       note,
       expiration_date,
       user_id,
+      training_frequency
     });
 
     return response.json(training);

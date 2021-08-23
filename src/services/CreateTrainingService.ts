@@ -9,6 +9,7 @@ interface Request {
   note: string;
   expiration_date: Date;
   user_id: string;
+  training_frequency: string;
 }
 
 class CreateTrainingService {
@@ -18,6 +19,7 @@ class CreateTrainingService {
     note,
     expiration_date,
     user_id,
+    training_frequency
   }: Request): Promise<Request> {
     const trainingsRepository = getCustomRepository(TrainingsRepository);
     const currentDate = new Date();
@@ -56,6 +58,7 @@ class CreateTrainingService {
       note,
       expiration_date,
       user_id,
+      training_frequency,
     });
 
     await trainingsRepository.save(training);
