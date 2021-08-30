@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import ExercisesRepository from '../repositories/ExercisesRepository';
+import Exercise from '../models/Exercise';
+
 import CreateExerciseService from '../services/CreateExerciseService';
 import DeleteExerciseService from '../services/DeleteExerciseService';
 import UpdateExerciseService from '../services/UpdateExerciseService';
@@ -27,6 +29,30 @@ exercisesRouter.post('/', async (request, response) => {
   }
 });
 
+exercisesRouter.get('/', async (request, response) => {
+  const exercisesRepository = getRepository(Exercise);
+  const { limit=10, page=0 } = request.query;
+
+  const offset = Number(page) * Number(limit)
+
+  const [exercises, exerciseCount] = await exercisesRepository
+    .createQueryBuilder()
+    .take(Number(limit))
+    .skip(offset)
+    .orderBy('name','ASC')
+    .getManyAndCount();
+
+  return response.json({total: exerciseCount, exercises});
+});
+
+exercisesRouter.get('/all', async (request, response) => {
+  const exercisesRepository = getCustomRepository(ExercisesRepository);
+  const exercises = await exercisesRepository.find();
+
+  return response.json(exercises);
+});
+
+
 exercisesRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
   const exercisesRepository = getCustomRepository(ExercisesRepository);
@@ -35,12 +61,6 @@ exercisesRouter.get('/:id', async (request, response) => {
   return response.json(exercises);
 });
 
-exercisesRouter.get('/', async (request, response) => {
-  const exercisesRepository = getCustomRepository(ExercisesRepository);
-  const exercises = await exercisesRepository.find();
-
-  return response.json(exercises);
-});
 
 exercisesRouter.delete('/:id', async (request, response) => {
   try {
