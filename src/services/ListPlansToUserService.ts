@@ -10,9 +10,11 @@ class ListPlansToUserService {
   public async execute({ id }: Request): Promise<Plan[]> {
     const plansRepository = getCustomRepository(PlansRepository);
 
+    console.log('aaaaaaaaaaaaaaaaaaaa')
+
     const plans = await plansRepository.find({
       where: { training_id: id },
-      order: { created_at: 'ASC' },
+      order: { description: 'ASC' },
       relations: ['plan_exercises'],
     });
 

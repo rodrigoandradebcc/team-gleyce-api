@@ -19,7 +19,13 @@ class CreatePlanService {
 
     if (planExist) {
       throw new AppError(
-        'There is already a plan with that name for this student.',
+        'Não é possível adicionar um plano com uma descrição já existente para este aluno',
+      );
+    }
+
+    if(description === ''){
+      throw new AppError(
+        'A descrição não pode ser vazia.',
       );
     }
 
