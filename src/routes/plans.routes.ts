@@ -8,6 +8,7 @@ import GetTrainingService from '../services/GetTrainingService';
 import InsertExerciseInPlanService from '../services/InsertExerciseInPlanService';
 import ListPlansToUserService from '../services/ListPlansToUserService';
 import UpdatePlanService from '../services/UpdatePlanService';
+import AppError from '../shared/AppError';
 
 const plansRouter = Router();
 
@@ -79,6 +80,7 @@ plansRouter.get(
       const planCompleted =
         await getExercisesAndPrescriptionCompletedToPlanService.execute({
           plan_id: id,
+
         });
 
       return response.json(planCompleted);
@@ -135,7 +137,7 @@ plansRouter.get('/generate-pdf/:id', async (request, response) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto(`http://192.168.0.11:3333/plans/view-pdf/${id}`, {
+    await page.goto(`http://192.168.0.6:3333/plans/view-pdf/${id}`, {
       waitUntil: 'networkidle0',
     });
 
@@ -198,7 +200,6 @@ plansRouter.delete('/:id', async (request, response) => {
 
 plansRouter.delete('/delete-exercise/:id/:plan', async (request, response) => {
   try {
-    // const { plan_id } = request.body;
     const { id, plan } = request.params;
 
     const deleteExercise = new DeleteExerciseAndPrescriptionService();

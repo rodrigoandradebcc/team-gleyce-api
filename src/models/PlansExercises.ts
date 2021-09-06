@@ -15,6 +15,9 @@ class PlansExercises {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  ordination_id: number;
+
   @ManyToOne(() => Plan, plan => plan.plan_exercises)
   @JoinColumn({ name: 'plan_id' })
   plan: Plan;

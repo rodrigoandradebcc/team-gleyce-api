@@ -22,7 +22,10 @@ class GetExercisesAndPrescriptionCompletedToPlanService {
     );
 
     const exercisesAndPrescriptionLinkedToThePlan = await plansExercisesRepository.find(
-      { plan_id },
+      {
+        where: { plan_id },
+        order: { ordination_id: 'ASC' },
+      },
     );
 
     return exercisesAndPrescriptionLinkedToThePlan;
